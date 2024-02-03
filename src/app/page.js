@@ -2,10 +2,6 @@
 'use client'
 import { Link } from '@chakra-ui/next-js'
 import {
-  Alert,
-  AlertIcon,
-  AlertTitle,
-  AlertDescription,
   Box,
   Stack,
   Text,
@@ -17,6 +13,7 @@ import {
   Button,
   Flex,
   Image,
+  useToast,
 } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
 import { CustumSelect, FloatingFormControl } from './component/FloatingInputLabel'
@@ -26,7 +23,7 @@ import axios from 'axios'
 import { StatesInNG } from './data'
 import * as Yup from 'yup'
 export default function Page() {
-
+  const toast = useToast();
   const YesNo = [
     { value: "No", label: "Not Yet" },
     { value: "Yes", label: "Yes" },
@@ -38,8 +35,9 @@ export default function Page() {
     // Add more titles as needed
   ];
   const [loading, setLoading] = useState(false)
+  const [registered, setRegistered] = useState(false)
   const modifiedStates = StatesInNG.map(state => ({ label: state, value: state }));
-  console.log(modifiedStates)
+
   const formik = useFormik({
     initialValues: {
       fname: '',
@@ -64,11 +62,35 @@ export default function Page() {
 
     onSubmit: values => {
       setLoading(true)
+
       // alert(JSON.stringify(values, null, 2));
-      const response = axios.post('https://cocgbagi.com/api/auth/register.php', values)
-      console.log(response.data)
+      axios.post('https://cocgbagi.com/api/auth/register.php', values).then((response) => {
+        console.log(response.data)
+        if (response.data.status === "200") {
+          setRegistered(true)
+          toast({
+            title: "Registeration Message",
+            description: response.data.message,
+            position: "top",
+            status: "sucess",
+            isClosable: true,
+          });
+          setLoading(false)
+        } else {
+          toast({
+            title: "Registeration Message",
+            description: response.data.message,
+            position: "top",
+            status: "error",
+            isClosable: true,
+          });
+          setLoading(false)
+        }
+      })
     },
   });
+
+
   return (
     <Box bg={'#'} fontFamily={'Rubik'} color={"gray.700"}>
       <Box width={'100%'}
@@ -202,6 +224,7 @@ export default function Page() {
           as={'form'} bg={'white'} p={5}
           width={{ base: '100%', md: '70%', lg: '70%', sm: '100%' }}
           onSubmit={formik.handleSubmit}
+          method='post'
         >
           <Heading pb={5} fontFamily={'Rubik'} fontSize={'2em'} color={'#322f90'}>Let&rsquo;s confirm your Attendance</Heading>
           <SimpleGrid columns={{ base: 1, md: 2 }} spacing={5} bg={'white'} py={2}>
@@ -218,7 +241,7 @@ export default function Page() {
             />
             <CustumSelect
               isInvalid={formik.errors.baptized && formik.touched.baptized}
-            errorMessage={formik.errors.baptized }
+              errorMessage={formik.errors.baptized}
               name="baptized"
               placeholder="Are you baptized"
               // formLabel="Title"
@@ -238,7 +261,7 @@ export default function Page() {
             />
             <FloatingFormControl
               isInvalid={formik.errors.lname && formik.touched.lname}
-              errorMessage={formik.errors.lname }
+              errorMessage={formik.errors.lname}
               name={'lname'}
               label={'My last name is:'}
               onChange={formik.handleChange}
@@ -246,7 +269,7 @@ export default function Page() {
             />
             <FloatingFormControl
               isInvalid={formik.errors.email && formik.touched.email}
-              errorMessage={formik.errors.email }
+              errorMessage={formik.errors.email}
               name={'email'}
               label={'My Email Address is:'}
               type={'email'}
@@ -255,7 +278,7 @@ export default function Page() {
             />
             <FloatingFormControl
               isInvalid={formik.errors.phone && formik.touched.phone}
-              errorMessage={formik.errors.phone }
+              errorMessage={formik.errors.phone}
               name={'phone'}
               label={'My Phone Number is:'}
               type={'tel'}
@@ -264,7 +287,7 @@ export default function Page() {
             />
             <FloatingFormControl
               isInvalid={formik.errors.congregation && formik.touched.congregation}
-              errorMessage={formik.errors.congregation }
+              errorMessage={formik.errors.congregation}
               name={'congregation'}
               label={'I worship with the bethren meeting at:'}
               type={'text'}
@@ -272,7 +295,7 @@ export default function Page() {
               value={formik.values.congregation}
             />
             <CustumSelect
-            errorMessage={formik.errors.state }
+              errorMessage={formik.errors.state}
               isInvalid={formik.errors.state && formik.touched.state}
               name="state"
               placeholder="Select State"
