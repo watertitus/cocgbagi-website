@@ -1,6 +1,6 @@
 // app/page.tsx
 'use client'
-import { Link } from '@chakra-ui/next-js'
+
 import {
   Box,
   Stack,
@@ -14,6 +14,7 @@ import {
   Flex,
   Image,
   useToast,
+  Link
 } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
 import { CustumSelect, FloatingFormControl } from './component/FloatingInputLabel'
@@ -61,33 +62,42 @@ export default function Page() {
       state: Yup.string().required('Please Select the State where your congregation is located'),
     }),
 
-    onSubmit: values => {
-      setLoading(true)
+    onSubmit: async (values) => {
+      setLoading(true);
 
-      // alert(JSON.stringify(values, null, 2));
-      axios.post('https://cocgbagi.com/api/auth/register.php', values).then((response) => {
-        console.log(response.data)
+      try {
+        const response = await axios.post('https://api.cocgbagi.com/auth/register.php', values);
+
         if (response.data.status === "200") {
-          setRegistered(true)
           toast({
-            title: "Registeration Message",
+            title: "Registration Message",
             description: response.data.message,
             position: "top",
-            status: "sucess",
+            status: "success",
             isClosable: true,
           });
-          setLoading(false)
+          setRegistered(true);
         } else {
           toast({
-            title: "Registeration Message",
+            title: "Registration Message",
             description: response.data.message,
             position: "top",
             status: "error",
             isClosable: true,
           });
-          setLoading(false)
         }
-      })
+      } catch (error) {
+        console.error(error);
+        toast({
+          title: "Error",
+          description: "An error occurred during registration.",
+          position: "top",
+          status: "error",
+          isClosable: true,
+        });
+      } finally {
+        setLoading(false);
+      }
     },
   });
 
@@ -188,6 +198,7 @@ export default function Page() {
         spacing={'1em'}
         // width={{ base: '100%', md: '70%', lg: '70%', sm: '100%' }}
         mx={'auto'}
+        pb={'4em'}
       // bg={'blue.50'}
       >
         <Stack
@@ -202,18 +213,18 @@ export default function Page() {
 
             <OrderedList fontSize={'14pt'} spacing={5}>
               <ListItem>
-                <b>Digital Discipleship: Navigating Godly Virtue in cyberspace.</b>
+                <b>Digital Discipleship: Navigating Godly Virtue in cyberspace. </b>
                 Proverbs 4:23
                 <Text>
-                  This topic can explore how young individuals can uphold their faith and values in the digital age. It can cover areas such as maintaining integrity while using the evolving technology in this changing world, discerning digital and social media influences, and using technology as a tool for positive engagement.
+                 We hope that this topic will  explore how young individuals can uphold their faith and values in the digital age. It encompasses areas such as maintaining integrity while using evolving technology, discerning digital and social media influences, and utilizing technology as a tool for positive engagement
                 </Text>
               </ListItem>
               <ListItem>
-                <b> Godly Foundations for marriage in today&rsquo;s world</b>
-                1 Corinthians 6:18
+                <b> Godly Foundations for marriage in today&rsquo;s world. </b>
+                1 Corinthians 6:18 
                 <Text fontSize={'14pt'}>
 
-                  This topic discusses the challenges youth face in maintaining godly relationships. It can address issues such as communication, trust, and the impact of digital technology on marital dynamics
+                  We hope that this  topic will delve into the challenges youth face in maintaining godly relationships, covering issues such as communication, trust, and the impact of digital technology on marital dynamics.
 
                 </Text>
               </ListItem>
@@ -221,113 +232,151 @@ export default function Page() {
           </Box>
 
         </Stack>
-        <Box
-          mx={'auto'}
-          as={'form'} bg={'white'} p={5}
-          width={{ base: '100%', md: '70%', lg: '70%', sm: '100%' }}
-          onSubmit={formik.handleSubmit}
-          method='post'
-        >
-          <Heading pb={5} fontFamily={'Rubik'} fontSize={'2em'} color={'#322f90'}>Let&rsquo;s confirm your Attendance</Heading>
-          <SimpleGrid columns={{ base: 1, md: 2 }} spacing={5} bg={'white'} py={2}>
-            <CustumSelect
-              isInvalid={formik.errors.gender && formik.touched.gender}
-              errorMessage={formik.errors.gender}
-              name="gender"
-              placeholder="Gender"
-              // formLabel="Title"
-              onChange={formik.handleChange}
-              value={formik.values.gender}
-              options={gender}
-              label={gender.label}
-            />
-            <CustumSelect
-              isInvalid={formik.errors.baptized && formik.touched.baptized}
-              errorMessage={formik.errors.baptized}
-              name="baptized"
-              placeholder="Are you baptized"
-              // formLabel="Title"
-              options={YesNo}
-              label={YesNo.label}
-              onChange={formik.handleChange}
-              value={formik.values.baptized}
-            />
+        {registered ?
+          <>
+            <Stack
+              p={5}
+              spacing={4}
+              mx={'auto'}
+              width={{ base: '100%', md: '70%', lg: '70%', sm: '100%' }}
+            >
+              <Heading mb={2} fontFamily={'Rubik'} fontSize={'2em'} color={'#322f90'}>
+                Thank you for registering!
+              </Heading>
+              <Text fontSize={'20pt'} color={'#322f90'}>
+                You have successfully registered for the Youth Bible Lectureship. We look forward to having you join us on Saturday, March 30, 2024, from 10:00 AM to 3:00 PM.
+              </Text>
+            </Stack>
+          </>
+          :
+          <Box
+            mx={'auto'}
+            as={'form'} bg={'white'} p={5}
+            width={{ base: '100%', md: '70%', lg: '70%', sm: '100%' }}
+            onSubmit={formik.handleSubmit}
+            method='post'
+          >
+            <Heading pb={5} fontFamily={'Rubik'} fontSize={'2em'} color={'#322f90'}>Let&rsquo;s confirm your Attendance</Heading>
+            <SimpleGrid columns={{ base: 1, md: 2 }} spacing={5} bg={'white'} py={2}>
+              <CustumSelect
+                isInvalid={formik.errors.gender && formik.touched.gender}
+                errorMessage={formik.errors.gender}
+                name="gender"
+                placeholder="Gender"
+                // formLabel="Title"
+                onChange={formik.handleChange}
+                value={formik.values.gender}
+                options={gender}
+                label={gender.label}
+              />
+              <CustumSelect
+                isInvalid={formik.errors.baptized && formik.touched.baptized}
+                errorMessage={formik.errors.baptized}
+                name="baptized"
+                placeholder="Are you baptized"
+                // formLabel="Title"
+                options={YesNo}
+                label={YesNo.label}
+                onChange={formik.handleChange}
+                value={formik.values.baptized}
+              />
 
-            <FloatingFormControl
-              isInvalid={formik.errors.fname && formik.touched.fname}
-              errorMessage={formik.errors.fname}
-              name={'fname'}
-              label={'My first name is:'}
-              onChange={formik.handleChange}
-              value={formik.values.fname}
-            />
-            <FloatingFormControl
-              isInvalid={formik.errors.lname && formik.touched.lname}
-              errorMessage={formik.errors.lname}
-              name={'lname'}
-              label={'My last name is:'}
-              onChange={formik.handleChange}
-              value={formik.values.lname}
-            />
-            <FloatingFormControl
-              isInvalid={formik.errors.email && formik.touched.email}
-              errorMessage={formik.errors.email}
-              name={'email'}
-              label={'My Email Address is:'}
-              type={'email'}
-              onChange={formik.handleChange}
-              value={formik.values.email}
-            />
-            <FloatingFormControl
-              isInvalid={formik.errors.phone && formik.touched.phone}
-              errorMessage={formik.errors.phone}
-              name={'phone'}
-              label={'My Phone Number is:'}
-              type={'tel'}
-              onChange={formik.handleChange}
-              value={formik.values.phone}
-            />
-            <FloatingFormControl
-              isInvalid={formik.errors.congregation && formik.touched.congregation}
-              errorMessage={formik.errors.congregation}
-              name={'congregation'}
-              label={'I worship with the bethren meeting at:'}
-              type={'text'}
-              onChange={formik.handleChange}
-              value={formik.values.congregation}
-            />
-            <CustumSelect
-              errorMessage={formik.errors.state}
-              isInvalid={formik.errors.state && formik.touched.state}
-              name="state"
-              placeholder="Select State"
-              // formLabel="Title"
-              options={modifiedStates}
-              label={modifiedStates.label}
-              onChange={formik.handleChange}
-              value={formik.values.state}
+              <FloatingFormControl
+                isInvalid={formik.errors.fname && formik.touched.fname}
+                errorMessage={formik.errors.fname}
+                name={'fname'}
+                label={'My first name is:'}
+                onChange={formik.handleChange}
+                value={formik.values.fname}
+              />
+              <FloatingFormControl
+                isInvalid={formik.errors.lname && formik.touched.lname}
+                errorMessage={formik.errors.lname}
+                name={'lname'}
+                label={'My last name is:'}
+                onChange={formik.handleChange}
+                value={formik.values.lname}
+              />
+              <FloatingFormControl
+                isInvalid={formik.errors.email && formik.touched.email}
+                errorMessage={formik.errors.email}
+                name={'email'}
+                label={'My Email Address is:'}
+                type={'email'}
+                onChange={formik.handleChange}
+                value={formik.values.email}
+              />
+              <FloatingFormControl
+                isInvalid={formik.errors.phone && formik.touched.phone}
+                errorMessage={formik.errors.phone}
+                name={'phone'}
+                label={'My Phone Number is:'}
+                type={'tel'}
+                onChange={formik.handleChange}
+                value={formik.values.phone}
+              />
+              <FloatingFormControl
+                isInvalid={formik.errors.congregation && formik.touched.congregation}
+                errorMessage={formik.errors.congregation}
+                name={'congregation'}
+                label={'I worship with the bethren meeting at:'}
+                type={'text'}
+                onChange={formik.handleChange}
+                value={formik.values.congregation}
+              />
+              <CustumSelect
+                errorMessage={formik.errors.state}
+                isInvalid={formik.errors.state && formik.touched.state}
+                name="state"
+                placeholder="Select State"
+                // formLabel="Title"
+                options={modifiedStates}
+                label={modifiedStates.label}
+                onChange={formik.handleChange}
+                value={formik.values.state}
 
-            />
+              />
 
-          </SimpleGrid>
-          <Button
+            </SimpleGrid>
+            <Button
 
-            isLoading={loading}
-            loadingText={'Submiting...'}
-            type='submit'
-            bg={'#ff9800'}
-            px={'2.5em'}
-            py={'2em'}
-            _hover={{
-              bg: '#1c1129',
-              color: '#ff9800'
-            }}
-          >Submit</Button>
-        </Box>
+              isLoading={loading}
+              loadingText={'Submiting...'}
+              type='submit'
+              bg={'#ff9800'}
+              px={'2.5em'}
+              py={'2em'}
+              _hover={{
+                bg: '#1c1129',
+                color: '#ff9800'
+              }}
+            >Submit</Button>
+          </Box>
+        }
+
+
       </Stack>
 
       <Box py={'5em'} bg={'#1c1129'}>
-
+        <Flex
+          direction={{ base: 'column', md: 'row' }}
+          justify="space-between"
+          align="center"
+          maxW={{ base: '100%', md: '70%', lg: '70%', sm: '100%' }}
+          mx="auto"
+          px={5}
+          color={'#fff'}
+        >
+          <Box>
+            <Text fontSize="lg">© {new Date().getFullYear()} Church of Christ Gbagi, Ibadan</Text>
+          </Box>
+          <Box mt={{ base: 4, md: 0 }}>
+            <Flex>
+              <Link pr={4}>Sermons</Link>
+              <Link>Teachings</Link>
+            </Flex>
+          </Box>
+        </Flex>
       </Box>
     </Box>
   )
