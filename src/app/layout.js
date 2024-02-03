@@ -7,7 +7,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang='en' className={fonts.rubik.variable}>
-   
+      <link href='https://fonts.googleapis.com/css?family=Rubik' rel='stylesheet'></link>
+      
       <body  >
         
         <Providers>

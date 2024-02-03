@@ -37,63 +37,109 @@ export default function Page() {
 
   return (
     <Box bg={'#'} fontFamily={'Rubik'} color={"gray.700"}>
-      <Box
-        width={'100%'}
+      <Box width={'100%'}
+        // h={'100dvh'}
+        pb={5}
+        bgGradient="linear(to-br, blue.900, blue.900)"
+        backgroundImage={`url('/images/bg.jpg')`} // Replace with the path to your image
+        backgroundSize="cover"
+        backgroundPosition="center"
+      // height="400px" // Set the desired height
+
       >
-        <Flex
+        <Box
+          width={'100%'}
 
-          px={5}
-          width={{ base: '100%', md: '75%', lg: '70%' }}
-          mx={'auto'}
-          justifyContent={'space-between'}
-          flexDir={'row'} h={'7em'}
-          // bg={'#322f90'}
-          alignItems={'center'}
-          justifyItems={'center'}
         >
+          <Flex
 
-          <Flex flex={1} justify={{ base: 'start', md: 'start' }} >
-            <Image height={'5em'} src={'images/cocgbagi_logo.png'} alt='Logo' />
+            px={5}
+            width={{ base: '100%', md: '75%', lg: '70%' }}
+            mx={'auto'}
+            justifyContent={'space-between'}
+            flexDir={'row'} h={'7em'}
+            // bg={'#322f90'}
+            alignItems={'center'}
+            justifyItems={'center'}
+          >
+
+            <Flex flex={1} justify={{ base: 'start', md: 'start' }} >
+              <Image height={'5em'} src={'images/coc_logo_white.png'} alt='Logo' />
+            </Flex>
+
+            <Flex display={{ base: 'none', md: 'flex' }} flex={1} justify={'center'} >
+              <Text textAlign={'center'} textColor={'white'}>{Date()}</Text>
+            </Flex>
+
+            <Flex display={{ base: 'flex', md: 'flex' }} flex={1} align={'end'} justify={'flex-end'}>
+              <Button
+                bg={'#ff9800'}
+                px={'2.5em'}
+                py={'2em'}
+                _hover={{
+                  bg: '#322f90',
+                  color:'#ff9800'
+                }}
+              >Register</Button>
+            </Flex>
+
           </Flex>
 
-          <Flex display={{ base: 'none', md: 'flex' }} flex={1} justify={'center'} >
-            <Text textAlign={'center'}>{Date()}</Text>
-          </Flex>
+        </Box>
 
-          <Flex display={{ base: 'flex', md: 'flex' }} flex={1} align={'end'} justify={'flex-end'}>
-            <Button>Register</Button>
-          </Flex>
-
-        </Flex>
-
+        <Stack
+          mx={'auto'}
+          width={{ base: '100%', md: '70%', lg: '70%', sm: '100%' }}
+          py={'2em'}
+          spacing={'2em'}
+          justifyContent={'center'}
+          bg={''}
+          px={{ base: '1em' }}
+        >
+          <Heading
+            fontFamily={'Rubik'}
+            fontSize={{ base: '3em', md: '4em' }}
+            color={'yellow.100'} textAlign={''}
+            lineHeight={1} >A one-day Youth Bible Lecturship</Heading>
+          <Box>
+            <Heading fontFamily={'Rubik'} fontSize={'2em'} color={'#ff9800'}>Theme:</Heading>
+            <Text fontSize={'20pt'} color={'#fff'}>
+              Christian Youth: Maintaining Godly Disposition in today’s Digital & Social Media world Text: 2Tim 2:22
+            </Text>
+          </Box>
+          <Stack direction={{ base: 'column', md: 'row' }} spacing={10}>
+            <Box>
+              <Heading fontFamily={'Rubik'} fontSize={'1.7em'} color={'#ff9800'}>Date:</Heading>
+              <Text fontSize={'20pt'} color={'#fff'}>
+                Saturday March 30, 2024.
+              </Text>
+            </Box>
+            <Box>
+              <Heading fontFamily={'Rubik'} fontSize={'1.7em'} color={'#ff9800'}>Time:</Heading>
+              <Text fontSize={'20pt'} color={'#fff'}>
+                10:00AM to 3:00PM
+              </Text>
+            </Box>
+          </Stack>
+        </Stack>
       </Box>
       <Stack
-        spacing={2}
+        spacing={'1em'}
         // width={{ base: '100%', md: '70%', lg: '70%', sm: '100%' }}
         mx={'auto'}
       // bg={'blue.50'}
       >
         <Stack
           p={5}
+          spacing={4}
           mx={'auto'}
           width={{ base: '100%', md: '70%', lg: '70%', sm: '100%' }}
         >
-          <Stack py={'2em'} spacing={5}  justifyContent={'center'} bg={''}>
-            <Heading
-              fontFamily={'Rubik'}
-              fontSize={{ base: '3em', md: '4em' }}
-              color={'#322f90'} textAlign={''}
-              lineHeight={1} >A one-day Youth Bible Lecturship</Heading>
-            <Box>
-              <Heading fontFamily={'Rubik'} fontSize={'2em'} color={'#322f90'}>Theme:</Heading>
-              <Text fontSize={'20pt'}>
-                Christian Youth: Maintaining Godly Disposition in today’s Digital & Social Media world Text: 2Tim 2:22
-              </Text>
-            </Box>
-          </Stack>
+
           <Box>
-            <Heading fontFamily={'Rubik'} fontSize={'1.7em'} color={'#322f90'}>Topics:</Heading>
-            <OrderedList fontSize={'14pt'} >
+            <Heading mb={2} fontFamily={'Rubik'} fontSize={'1.7em'} color={'#322f90'}>Topics:</Heading>
+
+            <OrderedList fontSize={'14pt'} spacing={5}>
               <ListItem>
                 <b>Digital Discipleship: Navigating Godly Virtue in cyberspace.</b>
                 Proverbs 4:23
@@ -112,18 +158,7 @@ export default function Page() {
               </ListItem>
             </OrderedList>
           </Box>
-          <Box>
-            <Heading fontFamily={'Rubik'} fontSize={'1.7em'} color={'#322f90'}>Date:</Heading>
-            <Text fontSize={'14pt'}>
-              Saturday March 30, 2024.
-            </Text>
-          </Box>
-          <Box>
-            <Heading fontFamily={'Rubik'} fontSize={'1.7em'} color={'#322f90'}>Time:</Heading>
-            <Text fontSize={'14pt'}>
-              10:00AM to 3:00PM
-            </Text>
-          </Box>
+
         </Stack>
         <Box
           mx={'auto'}
@@ -131,7 +166,7 @@ export default function Page() {
           width={{ base: '100%', md: '70%', lg: '70%', sm: '100%' }}
         >
           <Heading fontFamily={'Rubik'} fontSize={'2em'} color={'#322f90'}>Let&rsquo;s confirm your Attendance</Heading>
-          <SimpleGrid columns={{ base: 1, md: 2}} spacing={5} bg={'red'}>
+          <SimpleGrid columns={{ base: 1, md: 2 }} spacing={5} bg={'white'}>
             <CustumSelect
               name="title"
               placeholder="Gender"
@@ -183,6 +218,7 @@ export default function Page() {
           <Button type='submit' >Submit</Button>
         </Box>
       </Stack>
+
       <Box py={'5em'} bg={'#322f90'}>
 
       </Box>

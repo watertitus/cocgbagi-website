@@ -9,7 +9,7 @@ import {
     Box,
     Select
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 const activeLabelStyles = {
     transform: "scale(0.85) translateY(-24px)"
 };
@@ -95,7 +95,6 @@ export function FloatingFormControl({
 }
 
 export function CustumSelect({ formLabel,
-
     options = [],
     name,
     isInvalid,
