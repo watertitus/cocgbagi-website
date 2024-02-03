@@ -123,7 +123,7 @@ export default function Page() {
 
   return (
     <Box bg={'#'} fontFamily={'Rubik'} color={"gray.700"}>
-      <IndexPage pageTitle={'Church of Christ, Gbagi Ibadan Youth Lectureship'} />
+     
       <Box width={'100%'}
         // h={'100dvh'}
         pb={5}
