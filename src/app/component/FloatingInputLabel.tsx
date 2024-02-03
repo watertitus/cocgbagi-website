@@ -37,7 +37,7 @@ export const theme = extendTheme({
                             pointerEvents: "none",
                             mx: 3,
                             px: 1,
-                            my: 2,
+                            my: 3,
                             transformOrigin: "left top"
 
                         },
@@ -83,6 +83,7 @@ export function FloatingFormControl({
                         type={type}
                         disabled={disabled}
                         ref={ref}
+                        h="50px"
                     />
 
                     <FormLabel>{label}</FormLabel>
@@ -112,6 +113,7 @@ export function CustumSelect({ formLabel,
             <FormControl isInvalid={isInvalid} w={w} variant={'floating'} >
                 <FormLabel >{formLabel}</FormLabel>
                 <Select
+                    h="50px"
                     defaultValue={''}
                     isInvalid={isInvalid}
                     placeholder={placeholder}

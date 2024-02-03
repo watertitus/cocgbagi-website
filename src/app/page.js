@@ -20,6 +20,8 @@ import {
 } from '@chakra-ui/react'
 import { useState } from 'react'
 import { CustumSelect, FloatingFormControl } from './component/FloatingInputLabel'
+import { useFormik } from 'formik'
+import axios from 'axios'
 // import Image from 'next/image'
 
 export default function Page() {
@@ -34,7 +36,23 @@ export default function Page() {
     { value: "Female", label: "Female" },
     // Add more titles as needed
   ];
-
+  const formik = useFormik({
+    initialValues: {
+      fname: '',
+      lname: '',
+      gender: '',
+      email: '',
+      phone: '',
+      baptized: '',
+      congregation: '',
+      state: '',
+    },
+    onSubmit: values => {
+      alert(JSON.stringify(values, null, 2));
+     const response =  axios.post('http://localhost:8000/auth/register.php', values)
+     console.log(response.data)
+    },
+  });
   return (
     <Box bg={'#'} fontFamily={'Rubik'} color={"gray.700"}>
       <Box width={'100%'}
@@ -74,11 +92,14 @@ export default function Page() {
             <Flex display={{ base: 'flex', md: 'flex' }} flex={1} align={'end'} justify={'flex-end'}>
               <Button
                 bg={'#ff9800'}
+                border={'1px solid #ff9800'}
                 px={'2.5em'}
                 py={'2em'}
+
                 _hover={{
-                  bg: '#322f90',
-                  color:'#ff9800'
+                  // bg: '#1c1129',
+                  color: '#fff',
+                  border: '1px solid #1c1129'
                 }}
               >Register</Button>
             </Flex>
@@ -164,62 +185,89 @@ export default function Page() {
           mx={'auto'}
           as={'form'} bg={'white'} p={5}
           width={{ base: '100%', md: '70%', lg: '70%', sm: '100%' }}
+          onSubmit={formik.handleSubmit}
         >
-          <Heading fontFamily={'Rubik'} fontSize={'2em'} color={'#322f90'}>Let&rsquo;s confirm your Attendance</Heading>
-          <SimpleGrid columns={{ base: 1, md: 2 }} spacing={5} bg={'white'}>
+          <Heading pb={5} fontFamily={'Rubik'} fontSize={'2em'} color={'#322f90'}>Let&rsquo;s confirm your Attendance</Heading>
+          <SimpleGrid columns={{ base: 1, md: 2 }} spacing={5} bg={'white'} py={2}>
             <CustumSelect
-              name="title"
+              name="gender"
               placeholder="Gender"
               // formLabel="Title"
+              onChange={formik.handleChange}
+              value={formik.values.gender}
               options={gender}
               label={gender.label}
             />
             <CustumSelect
-              name="title"
+              name="baptized"
               placeholder="Are you baptized"
               // formLabel="Title"
               options={YesNo}
               label={YesNo.label}
+              onChange={formik.handleChange}
+              value={formik.values.baptized}
             />
 
             <FloatingFormControl
               name={'fname'}
               label={'My first name is:'}
+              onChange={formik.handleChange}
+              value={formik.values.fname}
             />
             <FloatingFormControl
               name={'lname'}
               label={'My last name is:'}
+              onChange={formik.handleChange}
+              value={formik.values.lname}
             />
             <FloatingFormControl
               name={'email'}
               label={'My Email Address is:'}
               type={'email'}
+              onChange={formik.handleChange}
+              value={formik.values.email}
             />
             <FloatingFormControl
-              name={'tel'}
+              name={'phone'}
               label={'My Phone Number is:'}
               type={'tel'}
+              onChange={formik.handleChange}
+              value={formik.values.phone}
             />
             <FloatingFormControl
-              name={'tel'}
+              name={'congregation'}
               label={'I worship with the bethren meeting at:'}
-              type={'tel'}
+              type={'text'}
+              onChange={formik.handleChange}
+              value={formik.values.congregation}
             />
             <CustumSelect
-              name="title"
+              name="state"
               placeholder="State"
               // formLabel="Title"
-              value={''}
+
               options={YesNo}
               label={YesNo.label}
+              onChange={formik.handleChange}
+              value={formik.values.state}
+
             />
 
           </SimpleGrid>
-          <Button type='submit' >Submit</Button>
+          <Button
+            type='submit'
+            bg={'#ff9800'}
+            px={'2.5em'}
+            py={'2em'}
+            _hover={{
+              bg: '#1c1129',
+              color: '#ff9800'
+            }}
+          >Submit</Button>
         </Box>
       </Stack>
 
-      <Box py={'5em'} bg={'#322f90'}>
+      <Box py={'5em'} bg={'#1c1129'}>
 
       </Box>
     </Box>
