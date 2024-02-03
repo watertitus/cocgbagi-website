@@ -100,11 +100,30 @@ export default function Page() {
       }
     },
   });
+  const [currentDateTime, setCurrentDateTime] = useState(new Date());
 
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setCurrentDateTime(new Date());
+    }, 1000);
+
+    // Cleanup the interval on component unmount
+    return () => clearInterval(intervalId);
+  }, []);
+
+  const formattedDateTime = currentDateTime.toLocaleString('en-US', {
+    weekday: 'short',
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+  });
 
   return (
     <Box bg={'#'} fontFamily={'Rubik'} color={"gray.700"}>
-      <IndexPage pageTitle={'Church of CHrist, Gbagi Ibadan Youth Lectureship'} />
+      <IndexPage pageTitle={'Church of Christ, Gbagi Ibadan Youth Lectureship'} />
       <Box width={'100%'}
         // h={'100dvh'}
         pb={5}
@@ -136,16 +155,17 @@ export default function Page() {
             </Flex>
 
             <Flex display={{ base: 'none', md: 'flex' }} flex={1} justify={'center'} >
-              <Text textAlign={'center'} textColor={'white'}>{Date()}</Text>
+              <Text textAlign={'center'} textColor={'white'}>{formattedDateTime}</Text>
             </Flex>
 
             <Flex display={{ base: 'flex', md: 'flex' }} flex={1} align={'end'} justify={'flex-end'}>
               <Button
+                as={'a'}
                 bg={'#ff9800'}
                 border={'1px solid #ff9800'}
                 px={'2.5em'}
                 py={'2em'}
-
+                href='#register'
                 _hover={{
                   // bg: '#1c1129',
                   color: '#fff',
@@ -175,7 +195,7 @@ export default function Page() {
           <Box>
             <Heading fontFamily={'Rubik'} fontSize={'2em'} color={'#ff9800'}>Theme:</Heading>
             <Text fontSize={'20pt'} color={'#fff'}>
-              Christian Youth: Maintaining Godly Disposition in today’s Digital & Social Media world Text: 2Tim 2:22
+              Christian Youth: Maintaining Godly Disposition in today’s Digital & Social Media world. Text: 2Tim 2:22
             </Text>
           </Box>
           <Stack direction={{ base: 'column', md: 'row' }} spacing={10}>
@@ -216,12 +236,12 @@ export default function Page() {
                 <b>Digital Discipleship: Navigating Godly Virtue in cyberspace. </b>
                 Proverbs 4:23
                 <Text>
-                 We hope that this topic will  explore how young individuals can uphold their faith and values in the digital age. It encompasses areas such as maintaining integrity while using evolving technology, discerning digital and social media influences, and utilizing technology as a tool for positive engagement
+                  We hope that this topic will  explore how young individuals can uphold their faith and values in the digital age. It encompasses areas such as maintaining integrity while using evolving technology, discerning digital and social media influences, and utilizing technology as a tool for positive engagement
                 </Text>
               </ListItem>
               <ListItem>
                 <b> Godly Foundations for marriage in today&rsquo;s world. </b>
-                1 Corinthians 6:18 
+                1 Corinthians 6:18
                 <Text fontSize={'14pt'}>
 
                   We hope that this  topic will delve into the challenges youth face in maintaining godly relationships, covering issues such as communication, trust, and the impact of digital technology on marital dynamics.
@@ -255,6 +275,7 @@ export default function Page() {
             width={{ base: '100%', md: '70%', lg: '70%', sm: '100%' }}
             onSubmit={formik.handleSubmit}
             method='post'
+            id='register'
           >
             <Heading pb={5} fontFamily={'Rubik'} fontSize={'2em'} color={'#322f90'}>Let&rsquo;s confirm your Attendance</Heading>
             <SimpleGrid columns={{ base: 1, md: 2 }} spacing={5} bg={'white'} py={2}>
@@ -357,7 +378,7 @@ export default function Page() {
 
       </Stack>
 
-      <Box py={'5em'} bg={'#1c1129'}>
+      <Box py={'5em'} bg={'#1c1129'} >
         <Flex
           direction={{ base: 'column', md: 'row' }}
           justify="space-between"
