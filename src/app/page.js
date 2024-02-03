@@ -18,14 +18,15 @@ import {
   Flex,
   Image,
 } from '@chakra-ui/react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { CustumSelect, FloatingFormControl } from './component/FloatingInputLabel'
 import { useFormik } from 'formik'
 import axios from 'axios'
 // import Image from 'next/image'
-
+import { StatesInNG } from './data'
+import * as Yup from 'yup'
 export default function Page() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+
   const YesNo = [
     { value: "No", label: "Not Yet" },
     { value: "Yes", label: "Yes" },
@@ -36,6 +37,9 @@ export default function Page() {
     { value: "Female", label: "Female" },
     // Add more titles as needed
   ];
+  const [loading, setLoading] = useState(false)
+  const modifiedStates = StatesInNG.map(state => ({ label: state, value: state }));
+  console.log(modifiedStates)
   const formik = useFormik({
     initialValues: {
       fname: '',
@@ -47,10 +51,22 @@ export default function Page() {
       congregation: '',
       state: '',
     },
+    validationSchema: Yup.object({
+      fname: Yup.string().required('Enter your First name'),
+      lname: Yup.string().required('Enter your Last name'),
+      gender: Yup.string().required('Please select your gender'),
+      email: Yup.string().email('Please Enter a Valid Email address').required('Email is required'),
+      phone: Yup.string().required('Please Enter a Phone number'),
+      baptized: Yup.string().required('Please select if you are baptized'),
+      congregation: Yup.string().required('Please Enter your congregation where you place you membership'),
+      state: Yup.string().required('Please Select the State where your congregation is located'),
+    }),
+
     onSubmit: values => {
-      alert(JSON.stringify(values, null, 2));
-     const response =  axios.post('http://localhost:8000/auth/register.php', values)
-     console.log(response.data)
+      setLoading(true)
+      // alert(JSON.stringify(values, null, 2));
+      const response = axios.post('https://cocgbagi.com/api/auth/register.php', values)
+      console.log(response.data)
     },
   });
   return (
@@ -190,6 +206,8 @@ export default function Page() {
           <Heading pb={5} fontFamily={'Rubik'} fontSize={'2em'} color={'#322f90'}>Let&rsquo;s confirm your Attendance</Heading>
           <SimpleGrid columns={{ base: 1, md: 2 }} spacing={5} bg={'white'} py={2}>
             <CustumSelect
+              isInvalid={formik.errors.gender && formik.touched.gender}
+              errorMessage={formik.errors.gender}
               name="gender"
               placeholder="Gender"
               // formLabel="Title"
@@ -199,6 +217,8 @@ export default function Page() {
               label={gender.label}
             />
             <CustumSelect
+              isInvalid={formik.errors.baptized && formik.touched.baptized}
+            errorMessage={formik.errors.baptized }
               name="baptized"
               placeholder="Are you baptized"
               // formLabel="Title"
@@ -209,18 +229,24 @@ export default function Page() {
             />
 
             <FloatingFormControl
+              isInvalid={formik.errors.fname && formik.touched.fname}
+              errorMessage={formik.errors.fname}
               name={'fname'}
               label={'My first name is:'}
               onChange={formik.handleChange}
               value={formik.values.fname}
             />
             <FloatingFormControl
+              isInvalid={formik.errors.lname && formik.touched.lname}
+              errorMessage={formik.errors.lname }
               name={'lname'}
               label={'My last name is:'}
               onChange={formik.handleChange}
               value={formik.values.lname}
             />
             <FloatingFormControl
+              isInvalid={formik.errors.email && formik.touched.email}
+              errorMessage={formik.errors.email }
               name={'email'}
               label={'My Email Address is:'}
               type={'email'}
@@ -228,6 +254,8 @@ export default function Page() {
               value={formik.values.email}
             />
             <FloatingFormControl
+              isInvalid={formik.errors.phone && formik.touched.phone}
+              errorMessage={formik.errors.phone }
               name={'phone'}
               label={'My Phone Number is:'}
               type={'tel'}
@@ -235,6 +263,8 @@ export default function Page() {
               value={formik.values.phone}
             />
             <FloatingFormControl
+              isInvalid={formik.errors.congregation && formik.touched.congregation}
+              errorMessage={formik.errors.congregation }
               name={'congregation'}
               label={'I worship with the bethren meeting at:'}
               type={'text'}
@@ -242,12 +272,13 @@ export default function Page() {
               value={formik.values.congregation}
             />
             <CustumSelect
+            errorMessage={formik.errors.state }
+              isInvalid={formik.errors.state && formik.touched.state}
               name="state"
-              placeholder="State"
+              placeholder="Select State"
               // formLabel="Title"
-
-              options={YesNo}
-              label={YesNo.label}
+              options={modifiedStates}
+              label={modifiedStates.label}
               onChange={formik.handleChange}
               value={formik.values.state}
 
@@ -255,6 +286,9 @@ export default function Page() {
 
           </SimpleGrid>
           <Button
+
+            isLoading={loading}
+            loadingText={'Submiting...'}
             type='submit'
             bg={'#ff9800'}
             px={'2.5em'}

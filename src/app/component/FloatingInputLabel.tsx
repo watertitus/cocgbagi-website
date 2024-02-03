@@ -105,7 +105,7 @@ export function CustumSelect({ formLabel,
     placeholder,
     label,
     w,
-    formErroMsg, }) {
+    errorMessage, }) {
 
     const [value, setValue] = useState(propValue || "");
     return (
@@ -132,7 +132,7 @@ export function CustumSelect({ formLabel,
                         </option>
                     ))}
                 </Select>
-                <FormErrorMessage>{formErroMsg}</FormErrorMessage>
+                <FormErrorMessage>{errorMessage}</FormErrorMessage>
             </FormControl>
         </ChakraProvider>
     );
