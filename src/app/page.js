@@ -22,6 +22,7 @@ import axios from 'axios'
 // import Image from 'next/image'
 import { StatesInNG } from './data'
 import * as Yup from 'yup'
+import IndexPage from './component/IndexPage'
 export default function Page() {
   const toast = useToast();
   const YesNo = [
@@ -93,6 +94,7 @@ export default function Page() {
 
   return (
     <Box bg={'#'} fontFamily={'Rubik'} color={"gray.700"}>
+      <IndexPage pageTitle={'Church of CHrist, Gbagi Ibadan Youth Lectureship'} />
       <Box width={'100%'}
         // h={'100dvh'}
         pb={5}
