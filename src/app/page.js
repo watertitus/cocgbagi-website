@@ -274,7 +274,7 @@ export default function Page() {
             as={'form'} bg={'white'} p={5}
             width={{ base: '100%', md: '70%', lg: '70%', sm: '100%' }}
             onSubmit={formik.handleSubmit}
-            method='post'
+           
             id='register'
           >
             <Heading pb={5} fontFamily={'Rubik'} fontSize={'2em'} color={'#322f90'}>Let&rsquo;s confirm your Attendance</Heading>

@@ -96,7 +96,7 @@ export function FloatingFormControl({
 }
 
 export function CustumSelect({ formLabel,
-    options = [],
+    options,
     name,
     isInvalid,
     value: propValue,
@@ -105,9 +105,10 @@ export function CustumSelect({ formLabel,
     placeholder,
     label,
     w,
+    value,
     errorMessage, }) {
 
-    const [value, setValue] = useState(propValue || "");
+
     return (
         <ChakraProvider theme={theme}>
             <FormControl isInvalid={isInvalid} w={w} variant={'floating'} >
@@ -119,10 +120,7 @@ export function CustumSelect({ formLabel,
                     placeholder={placeholder}
                     name={name}
                     value={value}
-                    onChange={(e) => {
-                        setValue(e.target.value);
-                        onChange(e);
-                    }}
+                    onChange={onChange}
                     disabled={disabled}
                 >
                     {options.map((option) => (
