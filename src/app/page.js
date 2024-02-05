@@ -123,9 +123,10 @@ export default function Page() {
 
   return (
     <Box bg={'#'} fontFamily={'Rubik'} color={"gray.700"}>
-     
+
       <Box width={'100%'}
         // h={'100dvh'}
+        bg={"#1c1129"}
         pb={5}
         bgGradient="linear(to-br, blue.900, blue.900)"
         backgroundImage={`url('/images/bg.jpg')`} // Replace with the path to your image
@@ -274,7 +275,7 @@ export default function Page() {
             as={'form'} bg={'white'} p={5}
             width={{ base: '100%', md: '70%', lg: '70%', sm: '100%' }}
             onSubmit={formik.handleSubmit}
-           
+
             id='register'
           >
             <Heading pb={5} fontFamily={'Rubik'} fontSize={'2em'} color={'#322f90'}>Let&rsquo;s confirm your Attendance</Heading>
