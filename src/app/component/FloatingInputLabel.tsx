@@ -50,18 +50,15 @@ export const theme = extendTheme({
 });
 
 export function FloatingFormControl({
-    label,
-    helperText,
-    errorMessage,
-    isInvalid = null,
-    name = null,
-    value,
-    onChange,
-    onBlur,
-    type,
-    disabled,
-    ref,
-    placeholder
+    label = null,
+    helperText = null,
+    errorMessage = null,
+    isInvalid = false,
+
+    h = "50px",
+    py = 5,
+    ...rest
+
 }) {
     return (
         <ChakraProvider theme={theme}>
@@ -73,17 +70,9 @@ export function FloatingFormControl({
 
                 >
                     <Input
-                        defaultValue={''}
-                        name={name}
-                        value={value}
-                        onChange={onChange}
                         placeholder=" "
-                        py={5}
-                        onBlur={onBlur}
-                        type={type}
-                        disabled={disabled}
-                        ref={ref}
-                        h="50px"
+                        h={h}
+                        {...rest}
                     />
 
                     <FormLabel>{label}</FormLabel>
@@ -95,33 +84,20 @@ export function FloatingFormControl({
     );
 }
 
-export function CustumSelect({ formLabel,
+export function CustumSelect({ formLabel = null,
     options,
-    name,
-    isInvalid,
-    value: propValue,
-    onChange,
-    disabled,
-    placeholder,
-    label,
-    w,
-    value,
-    errorMessage, }) {
+    isInvalid = false,
+    errorMessage = null,
+    ...rest }) {
 
 
     return (
         <ChakraProvider theme={theme}>
-            <FormControl isInvalid={isInvalid} w={w} variant={'floating'} >
+            <FormControl isInvalid={isInvalid} variant={'floating'} >
                 <FormLabel >{formLabel}</FormLabel>
                 <Select
                     h="50px"
-                    defaultValue={''}
-                    isInvalid={isInvalid}
-                    placeholder={placeholder}
-                    name={name}
-                    value={value}
-                    onChange={onChange}
-                    disabled={disabled}
+                    {...rest}
                 >
                     {options.map((option) => (
                         <option

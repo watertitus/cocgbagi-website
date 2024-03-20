@@ -1,0 +1,1 @@
+const ENDPOINT_API = 'http://localhost/cocgbagi-api/'
