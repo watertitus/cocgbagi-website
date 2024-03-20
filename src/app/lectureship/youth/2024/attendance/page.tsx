@@ -126,7 +126,7 @@ const Page: NextPage<Props> = () => {
                     </div>
                 ) : (
                     <div className='bg-red-300 py-3 px-5 text-center rounded-lg'>
-                        <p className='text-lg font-bold text-balance text-red-700'>No participants found for "{searchTerm}"</p>
+                        <p className='text-lg font-bold text-balance text-red-700'>No participants found for `&quot;`{searchTerm}`&quot;`</p>
                     </div>
                 )}
             </div>
