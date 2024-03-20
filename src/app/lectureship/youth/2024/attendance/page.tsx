@@ -8,7 +8,7 @@ import axios from 'axios';
 import { Button, useToast } from '@chakra-ui/react';
 
 
-interface Props { }
+
 interface Props {
     participants: Participant[]; // Define an interface for participant data
 }
