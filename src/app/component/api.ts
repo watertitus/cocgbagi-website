@@ -1,1 +1,1 @@
-const ENDPOINT_API = 'http://localhost/cocgbagi-api/'
+export const ENDPOINT_API = 'http://localhost/cocgbagi-api/'
