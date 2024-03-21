@@ -9,10 +9,6 @@ import { ENDPOINT_API } from '../../../../component/api';
 import useCustomToast from '../../../../component/useCustomToast';
 
 
-interface Props {
-    participants: Participant[]; // Define an interface for participant data
-}
-
 interface Participant {
     congregation: string;
     phone: string;
@@ -23,7 +19,7 @@ interface Participant {
     participant_id: string;
 }
 
-const Attendance: NextPage<Props> = () => {
+const Attendance: NextPage = () => {
     const showToast = useCustomToast();
     const [searchTerm, setSearchTerm] = useState(''); // State variable for search term
     const [searchResults, setSearchResults] = useState<Participant[]>([]); // State variable for search results
